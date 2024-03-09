@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=1m5V-W0kBJs-dY14UwQz4e7HejOQ1Z6SbXpJ-D3j4nEz4b-b-zQ-S664O0EwCZux" charset="UTF-8"></script><!DOCTYPE html>
+<html>
+<script src="https://cdn.socket.io/3.0.5/socket.io.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<head>
+    <title>CCGraph</title>
+
+        <style>
+    /* Custom styles for the navigation bar */
+    nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #f1f1f1;
+    }
+
+    top_buttons {
+        position: fixed;
+        top: 40;
+        width: 100%;
+        background-color: #ca3c3c;
+    }
+
+    nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav li {
+        display: inline-block;
+    }
+
+    nav a {
+        display: block;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #555;
+        font-size: medium;
+        font-family: Arial, Helvetica, sans-serif
+    }
+
+    nav a:hover {
+        background-color: #e1e1e1;
+        color: hsl(241, 74%, 38%);
+    }
+
+    /* Custom styles for the selected item */
+    .selected {
+        background-color: rgb(151, 247, 151);
+        color: hsl(244, 77%, 41%);
+    }
+
+    .content-block {
+        margin-left: 16px;
+        margin-top: 80px;
+    }
+
+    .button_bar {
+        overflow: hidden;
+        position: fixed;
+        top: 58px;
+
+        background-color: #ffffff;
+        padding: 5px;
+        margin-left: 0px;
+
+
+    }
+
+    a,
+    a:hover,
+    a:visited,
+    a:active {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    h1 {
+        color: green;
+    }
+
+    table {
+        font-size: small
+    }
+
+    h3 {
+        font-size: small;
+        color: blue;
+    }
+
+    tr {
+        border: 1px solid powderblue
+    }
+
+    p {
+        color: red;
+    }
+
+    b {
+        font-size: small;
+        color: blue;
+    }
+
+    .button-grid {
+        display: grid;
+        grid-template-columns: repeat(14, 1fr);
+        grid-gap: 10px;
+    }
+
+    .controls_line {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 10px;
+        width: 300px;
+
+    }
+
+    .app-button-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3px;
+        width: 400px;
+    }
+
+    .button {
+        background-color: #ddd;
+        padding: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #74d30f;
+    }
+
+    .button_red {
+        background-color: #ff5826;
+        padding: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    body {
+        margin: 0;
+        margin-top: 109px;
+        background-color: white;
+        font-size: small;
+
+    }
+
+    h2 {
+        color: rgb(14, 119, 32);
+    }
+
+    .elementToFadeInAndOut {
+        width: 100px;
+        height: 20px;
+        text-align: center;
+        font-size: larger;
+        font-weight: bold;
+        background: lightyellow;
+        -webkit-animation: fadeinout 0.5s linear forwards;
+        animation: fadeinout 0.5s linear forwards;
+        opacity: 0;
+    }
+
+    .elementToFadeOutAndIn {
+        background: White;
+        -webkit-animation: fadeoutin 0.5s linear forwards;
+        animation: fadeoutin 0.5s linear forwards;
+        opacity: 50;
+    }
+
+    @-webkit-keyframes fadeinout {
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeinout {
+        50% {
+            opacity: 1;
+        }
+    }
+
+    .active {
+        color: green;
+    }
+
+    .inactive {
+        color: red;
+    }
+
+    /* Style for the file name text */
+    .image-container .file-name {
+        margin-top: 5px;
+        font-size: 18px;
+        color: #666;
+        text-decoration: none;
+        /* Remove underline from the link */
+    }
+
+    .image-container .file-name.temporary-bg {
+        background-color: yellow;
+        /* Transition to revert the background color after 0.5 seconds */
+    }
+
+
+</style>
+
+
+
+
+        <meta charset="utf-8">
+
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 900px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+
+
+
+
+        #config {
+                width: 900px;
+                height: 450px;
+                background-color: #ffffff;
+        }
+
+
+
+        </style>
+
+
+</head>
+<body>
+
+
+    <div class="content-block">
+
+
+
+
+        <div class="card" style="width: 100%; margin-top: 100px">
+            <table>
+                <tr style="vertical-align: top;">
+                    <td>
+                    </td>
+                    <td>
+                        <div id="mynetwork" class="card-body"></div>
+                    </td>
+                    <td>
+                        <table>
+                            <tr><td>
+                                <div id="config"></div>
+                            </td></tr>
+                            <tr><td>
+                            <form id="rotationForm"><H4>Rotation:
+            <label for="rotation0">
+            <input type="radio" name="rotation" id="rotation0" value="0"
+            onchange="updateGraph()">0</label>
+            <label for="rotation1">
+            <input type="radio" name="rotation" id="rotation1" value="1"
+            onchange="updateGraph()">1</label>
+            <label for="rotation2">
+            <input type="radio" name="rotation" id="rotation2" value="2"
+             checked onchange="updateGraph()">2</label>
+            <label for="rotation3">
+            <input type="radio" name="rotation" id="rotation3" value="3"
+            onchange="updateGraph()">3</label></H4></form>
+        <script>
+            function updateGraph() {
+                console.log('updateRotation called');
+                const selectedRotation = document.querySelector('input[name="rotation"]:checked').value;
+                const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+
+                window.location.href = `/update_ccg?rotation=${selectedRotation}&difficulty=${selectedDifficulty}`;
+            }
+        </script>
+
+                            <form id="diffForm"><H4>Difficulty:
+            <label for="diffH">
+            <input type="radio" name="difficulty" id="difficultyH" value="H"
+             checked onchange="updateGraph()">H</label>
+            <label for="diffN">
+            <input type="radio" name="difficulty" id="difficultyN" value="N"
+            onchange="updateGraph()">N</label></H4></form>
+                            </td></tr>
+                        </table>
+                    </td
+                </tr>
+            </table>
+        </div>
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+
+
+
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "font": {"size": 25}, "id": "C01", "label": "C01", "physics": false, "shape": "ellipse", "size": 25, "x": -550, "y": 850}, {"color": "lightblue", "font": {"size": 25}, "id": "C02", "label": "C02", "physics": true, "shape": "ellipse", "size": 25, "x": 444, "y": 249}, {"color": "lightblue", "font": {"size": 25}, "id": "C03", "label": "C03", "physics": true, "shape": "ellipse", "size": 25, "x": 373, "y": 194}, {"color": "lightblue", "font": {"size": 25}, "id": "C04", "label": "C04", "physics": true, "shape": "ellipse", "size": 25, "x": 357, "y": -784}, {"color": "cyan", "font": {"size": 25}, "id": "C05", "label": "C05", "physics": true, "shape": "circle", "size": 25, "x": 394, "y": -861}, {"color": "lightblue", "font": {"size": 25}, "id": "C06", "label": "C06", "physics": true, "shape": "ellipse", "size": 25, "x": 324, "y": -831}, {"color": "lightblue", "font": {"size": 25}, "id": "C07", "label": "C07", "physics": true, "shape": "ellipse", "size": 25, "x": 930, "y": -676}, {"color": "cyan", "font": {"size": 25}, "id": "C08", "label": "C08", "physics": true, "shape": "circle", "size": 25, "x": 1067, "y": -691}, {"color": "lightblue", "font": {"size": 25}, "id": "C09", "label": "C09", "physics": true, "shape": "ellipse", "size": 25, "x": 1195, "y": -731}, {"color": "lightblue", "font": {"size": 25}, "id": "C10", "label": "C10", "physics": true, "shape": "ellipse", "size": 25, "x": 1244, "y": -785}, {"color": "lightblue", "font": {"size": 25}, "id": "C11", "label": "C11", "physics": true, "shape": "ellipse", "size": 25, "x": 1087, "y": -801}, {"color": "lightblue", "font": {"size": 25}, "id": "C12", "label": "C12", "physics": true, "shape": "ellipse", "size": 25, "x": 939, "y": -754}, {"color": "cyan", "font": {"size": 25}, "id": "C13", "label": "C13", "physics": true, "shape": "circle", "size": 25, "x": 1004, "y": -874}, {"color": "lightblue", "font": {"size": 25}, "id": "C14", "label": "C14", "physics": true, "shape": "ellipse", "size": 25, "x": 856, "y": -841}, {"color": "lightblue", "font": {"size": 25}, "id": "C15", "label": "C15", "physics": true, "shape": "ellipse", "size": 25, "x": 480, "y": -899}, {"color": "lightblue", "font": {"size": 25}, "id": "C16", "label": "C16", "physics": true, "shape": "ellipse", "size": 25, "x": 1192, "y": -860}, {"color": "lightblue", "font": {"size": 25}, "id": "C17", "label": "C17", "physics": true, "shape": "ellipse", "size": 25, "x": 1701, "y": -910}, {"color": "cyan", "font": {"size": 25}, "id": "C18", "label": "C18", "physics": true, "shape": "circle", "size": 25, "x": 1239, "y": -966}, {"color": "lightblue", "font": {"size": 25}, "id": "C19", "label": "C19", "physics": true, "shape": "ellipse", "size": 25, "x": 1075, "y": -925}, {"color": "cyan", "font": {"size": 25}, "id": "C20", "label": "C20", "physics": true, "shape": "circle", "size": 25, "x": 1033, "y": -1000}, {"color": "lightblue", "font": {"size": 25}, "id": "C21", "label": "C21", "physics": true, "shape": "ellipse", "size": 25, "x": 593, "y": -936}, {"color": "cyan", "font": {"size": 25}, "id": "C22", "label": "C22", "physics": true, "shape": "circle", "size": 25, "x": 541, "y": -961}, {"color": "pink", "font": {"size": 25}, "id": "C23", "label": "C23", "physics": true, "shape": "circle", "size": 25, "x": 495, "y": -792}, {"color": "pink", "font": {"size": 25}, "id": "C24", "label": "C24", "physics": true, "shape": "circle", "size": 25, "x": 1125, "y": -887}, {"color": "pink", "font": {"size": 25}, "id": "C25", "label": "C25", "physics": true, "shape": "circle", "size": 25, "x": 1109, "y": -971}, {"color": "lightblue", "font": {"size": 25}, "id": "D01", "label": "D01", "physics": true, "shape": "ellipse", "size": 25, "x": 278, "y": -1768}, {"color": "lightblue", "font": {"size": 25}, "id": "D02", "label": "D02", "physics": true, "shape": "ellipse", "size": 25, "x": 184, "y": -1780}, {"color": "lightblue", "font": {"size": 25}, "id": "D03", "label": "D03", "physics": true, "shape": "ellipse", "size": 25, "x": 101, "y": -1845}, {"color": "lightblue", "font": {"size": 25}, "id": "D04", "label": "D04", "physics": true, "shape": "ellipse", "size": 25, "x": 114, "y": -1938}, {"color": "lightblue", "font": {"size": 25}, "id": "D05", "label": "D05", "physics": true, "shape": "ellipse", "size": 25, "x": 486, "y": -1950}, {"color": "lightblue", "font": {"size": 25}, "id": "D06", "label": "D06", "physics": true, "shape": "ellipse", "size": 25, "x": 407, "y": -1950}, {"color": "lightblue", "font": {"size": 25}, "id": "D07", "label": "D07", "physics": true, "shape": "ellipse", "size": 25, "x": 363, "y": -1903}, {"color": "lightblue", "font": {"size": 25}, "id": "D08", "label": "D08", "physics": true, "shape": "ellipse", "size": 25, "x": 313, "y": -1944}, {"color": "cyan", "font": {"size": 25}, "id": "D09", "label": "D09", "physics": true, "shape": "circle", "size": 25, "x": 203, "y": -1974}, {"color": "cyan", "font": {"size": 25}, "id": "D10", "label": "D10", "physics": true, "shape": "circle", "size": 25, "x": 172, "y": -2042}, {"color": "lightblue", "font": {"size": 25}, "id": "D11", "label": "D11", "physics": true, "shape": "ellipse", "size": 25, "x": 255, "y": -2091}, {"color": "lightblue", "font": {"size": 25}, "id": "D12", "label": "D12", "physics": true, "shape": "ellipse", "size": 25, "x": 311, "y": -2084}, {"color": "lightblue", "font": {"size": 25}, "id": "D13", "label": "D13", "physics": true, "shape": "ellipse", "size": 25, "x": 314, "y": -2034}, {"color": "cyan", "font": {"size": 25}, "id": "D14", "label": "D14", "physics": true, "shape": "circle", "size": 25, "x": 382, "y": -1996}, {"color": "cyan", "font": {"size": 25}, "id": "D15", "label": "D15", "physics": true, "shape": "circle", "size": 25, "x": 453, "y": -2994}, {"color": "lightblue", "font": {"size": 25}, "id": "D16", "label": "D16", "physics": true, "shape": "ellipse", "size": 25, "x": 997, "y": -3000}, {"color": "cyan", "font": {"size": 25}, "id": "D17", "label": "D17", "physics": true, "shape": "circle", "size": 25, "x": 1076, "y": -2089}, {"color": "lightblue", "font": {"size": 25}, "id": "D18", "label": "D18", "physics": true, "shape": "ellipse", "size": 25, "x": 543, "y": -2030}, {"color": "lightblue", "font": {"size": 25}, "id": "D19", "label": "D19", "physics": true, "shape": "ellipse", "size": 25, "x": 605, "y": -2004}, {"color": "lightblue", "font": {"size": 25}, "id": "D20", "label": "D20", "physics": true, "shape": "ellipse", "size": 25, "x": 1067, "y": -2002}, {"color": "cyan", "font": {"size": 25}, "id": "D21", "label": "D21", "physics": true, "shape": "circle", "size": 25, "x": 1129, "y": -2039}, {"color": "lightblue", "font": {"size": 25}, "id": "D22", "label": "D22", "physics": true, "shape": "ellipse", "size": 25, "x": 1194, "y": -2084}, {"color": "pink", "font": {"size": 25}, "id": "D23", "label": "D23", "physics": true, "shape": "circle", "size": 25, "x": 235, "y": -1881}, {"color": "pink", "font": {"size": 25}, "id": "D24", "label": "D24", "physics": true, "shape": "circle", "size": 25, "x": 467, "y": -2059}, {"color": "pink", "font": {"size": 25}, "id": "D25", "label": "D25", "physics": true, "shape": "circle", "size": 25, "x": 297, "y": -3021}, {"color": "lightblue", "font": {"size": 25}, "id": "P01", "label": "P01", "physics": true, "shape": "ellipse", "size": 25, "x": 2232, "y": -820}, {"color": "lightblue", "font": {"size": 25}, "id": "P02", "label": "P02", "physics": true, "shape": "ellipse", "size": 25, "x": 2320, "y": -840}, {"color": "lightblue", "font": {"size": 25}, "id": "P03", "label": "P03", "physics": true, "shape": "ellipse", "size": 25, "x": 2354, "y": -887}, {"color": "lightblue", "font": {"size": 25}, "id": "P04", "label": "P04", "physics": true, "shape": "ellipse", "size": 25, "x": 2268, "y": -943}, {"color": "cyan", "font": {"size": 25}, "id": "P05", "label": "P05", "physics": true, "shape": "circle", "size": 25, "x": 2193, "y": -971}, {"color": "lightblue", "font": {"size": 25}, "id": "P06", "label": "P06", "physics": true, "shape": "ellipse", "size": 25, "x": 2323, "y": -1903}, {"color": "cyan", "font": {"size": 25}, "id": "P07", "label": "P07", "physics": true, "shape": "circle", "size": 25, "x": 2414, "y": -932}, {"color": "lightblue", "font": {"size": 25}, "id": "P08", "label": "P08", "physics": true, "shape": "ellipse", "size": 25, "x": 2504, "y": -968}, {"color": "lightblue", "font": {"size": 25}, "id": "P09", "label": "P09", "physics": true, "shape": "ellipse", "size": 25, "x": 2890, "y": -857}, {"color": "cyan", "font": {"size": 25}, "id": "P10", "label": "P10", "physics": true, "shape": "circle", "size": 25, "x": 2954, "y": -792}, {"color": "lightblue", "font": {"size": 25}, "id": "P11", "label": "P11", "physics": true, "shape": "ellipse", "size": 25, "x": 3110, "y": -872}, {"color": "cyan", "font": {"size": 25}, "id": "P12", "label": "P12", "physics": true, "shape": "circle", "size": 25, "x": 3178, "y": -950}, {"color": "lightblue", "font": {"size": 25}, "id": "P13", "label": "P13", "physics": true, "shape": "ellipse", "size": 25, "x": 3056, "y": -953}, {"color": "lightblue", "font": {"size": 25}, "id": "P14", "label": "P14", "physics": true, "shape": "ellipse", "size": 25, "x": 3161, "y": -1909}, {"color": "lightblue", "font": {"size": 25}, "id": "P15", "label": "P15", "physics": true, "shape": "ellipse", "size": 25, "x": 3031, "y": -1932}, {"color": "cyan", "font": {"size": 25}, "id": "P16", "label": "P16", "physics": true, "shape": "circle", "size": 25, "x": 3091, "y": -2020}, {"color": "lightblue", "font": {"size": 25}, "id": "P17", "label": "P17", "physics": true, "shape": "ellipse", "size": 25, "x": 3005, "y": -2048}, {"color": "lightblue", "font": {"size": 25}, "id": "P18", "label": "P18", "physics": true, "shape": "ellipse", "size": 25, "x": 2927, "y": -2027}, {"color": "lightblue", "font": {"size": 25}, "id": "P19", "label": "P19", "physics": true, "shape": "ellipse", "size": 25, "x": 2923, "y": -1947}, {"color": "lightblue", "font": {"size": 25}, "id": "P20", "label": "P20", "physics": true, "shape": "ellipse", "size": 25, "x": 2446, "y": -1914}, {"color": "lightblue", "font": {"size": 25}, "id": "P21", "label": "P21", "physics": true, "shape": "ellipse", "size": 25, "x": 2805, "y": -1976}, {"color": "cyan", "font": {"size": 25}, "id": "P22", "label": "P22", "physics": true, "shape": "circle", "size": 25, "x": 2848, "y": -2024}, {"color": "pink", "font": {"size": 25}, "id": "P23", "label": "P23", "physics": true, "shape": "circle", "size": 25, "x": 2999, "y": -908}, {"color": "pink", "font": {"size": 25}, "id": "P24", "label": "P24", "physics": true, "shape": "circle", "size": 25, "x": 2353, "y": -967}, {"color": "pink", "font": {"size": 25}, "id": "P25", "label": "P25", "physics": true, "shape": "circle", "size": 25, "x": 2995, "y": -1979}, {"color": "lightblue", "font": {"size": 25}, "id": "S01", "label": "S01", "physics": true, "shape": "ellipse", "size": 25, "x": 2169, "y": -2862}, {"color": "lightblue", "font": {"size": 25}, "id": "S02", "label": "S02", "physics": true, "shape": "ellipse", "size": 25, "x": 1820, "y": -2935}, {"color": "lightblue", "font": {"size": 25}, "id": "S03", "label": "S03", "physics": true, "shape": "ellipse", "size": 25, "x": 1901, "y": -2970}, {"color": "lightblue", "font": {"size": 25}, "id": "S04", "label": "S04", "physics": true, "shape": "ellipse", "size": 25, "x": 2355, "y": -2912}, {"color": "cyan", "font": {"size": 25}, "id": "S05", "label": "S05", "physics": true, "shape": "circle", "size": 25, "x": 2302, "y": -2972}, {"color": "lightblue", "font": {"size": 25}, "id": "S06", "label": "S06", "physics": true, "shape": "ellipse", "size": 25, "x": 2446, "y": -2954}, {"color": "lightblue", "font": {"size": 25}, "id": "S07", "label": "S07", "physics": true, "shape": "ellipse", "size": 25, "x": 2434, "y": -3017}, {"color": "lightblue", "font": {"size": 25}, "id": "S08", "label": "S08", "physics": true, "shape": "ellipse", "size": 25, "x": 2381, "y": -3086}, {"color": "cyan", "font": {"size": 25}, "id": "S09", "label": "S09", "physics": true, "shape": "circle", "size": 25, "x": 1873, "y": -3138}, {"color": "lightblue", "font": {"size": 25}, "id": "S10", "label": "S10", "physics": true, "shape": "ellipse", "size": 25, "x": 2341, "y": -3142}, {"color": "cyan", "font": {"size": 25}, "id": "S11", "label": "S11", "physics": true, "shape": "circle", "size": 25, "x": 2408, "y": -3167}, {"color": "lightblue", "font": {"size": 25}, "id": "S12", "label": "S12", "physics": true, "shape": "ellipse", "size": 25, "x": 1838, "y": -4141}, {"color": "lightblue", "font": {"size": 25}, "id": "S13", "label": "S13", "physics": true, "shape": "ellipse", "size": 25, "x": 1753, "y": -3171}, {"color": "lightblue", "font": {"size": 25}, "id": "S14", "label": "S14", "physics": true, "shape": "ellipse", "size": 25, "x": 1224, "y": -3179}, {"color": "cyan", "font": {"size": 25}, "id": "S15", "label": "S15", "physics": true, "shape": "circle", "size": 25, "x": 1424, "y": -4151}, {"color": "lightblue", "font": {"size": 25}, "id": "S16", "label": "S16", "physics": true, "shape": "ellipse", "size": 25, "x": 1716, "y": -3053}, {"color": "cyan", "font": {"size": 25}, "id": "S17", "label": "S17", "physics": true, "shape": "circle", "size": 25, "x": 1174, "y": -3074}, {"color": "lightblue", "font": {"size": 25}, "id": "S18", "label": "S18", "physics": true, "shape": "ellipse", "size": 25, "x": 1007, "y": -3100}, {"color": "lightblue", "font": {"size": 25}, "id": "S19", "label": "S19", "physics": true, "shape": "ellipse", "size": 25, "x": 910, "y": -3096}, {"color": "lightblue", "font": {"size": 25}, "id": "S20", "label": "S20", "physics": true, "shape": "ellipse", "size": 25, "x": 1148, "y": -3145}, {"color": "lightblue", "font": {"size": 25}, "id": "S21", "label": "S21", "physics": true, "shape": "ellipse", "size": 25, "x": 969, "y": -3188}, {"color": "cyan", "font": {"size": 25}, "id": "S22", "label": "S22", "physics": true, "shape": "circle", "size": 25, "x": 781, "y": -3164}, {"color": "pink", "font": {"size": 25}, "id": "S23", "label": "S23", "physics": true, "shape": "circle", "size": 25, "x": 2565, "y": -3067}, {"color": "pink", "font": {"size": 25}, "id": "S24", "label": "S24", "physics": true, "shape": "circle", "size": 25, "x": 882, "y": -3142}, {"color": "pink", "font": {"size": 25}, "id": "S25", "label": "S25", "physics": true, "shape": "circle", "size": 25, "x": 1663, "y": -3082}]);
+                  edges = new vis.DataSet([{"color": "red", "from": "C01", "to": "C02", "width": 3}, {"color": "red", "from": "C02", "to": "C03", "width": 3}, {"color": "red", "from": "C02", "to": "C07", "width": 3}, {"color": "red", "from": "C03", "to": "C04", "width": 3}, {"color": "red", "from": "C04", "to": "C05", "width": 3}, {"color": "red", "from": "C05", "to": "C06", "width": 3}, {"color": "red", "from": "C07", "to": "C08", "width": 3}, {"color": "red", "from": "C08", "to": "C09", "width": 3}, {"color": "red", "from": "C08", "to": "C11", "width": 3}, {"color": "red", "from": "C09", "to": "C10", "width": 3}, {"color": "red", "from": "C11", "to": "C16", "width": 3}, {"color": "red", "from": "C16", "to": "C17", "width": 3}, {"color": "red", "from": "C18", "to": "C17", "width": 3}, {"color": "red", "from": "D01", "to": "D02", "width": 3}, {"color": "red", "from": "D02", "to": "D03", "width": 3}, {"color": "red", "from": "D03", "to": "D04", "width": 3}, {"color": "red", "from": "D04", "to": "D09", "width": 3}, {"color": "red", "from": "D09", "to": "D13", "width": 3}, {"color": "red", "from": "D12", "to": "D13", "width": 3}, {"color": "red", "from": "D12", "to": "D15", "width": 3}, {"color": "red", "from": "P01", "to": "P02", "width": 3}, {"color": "red", "from": "P02", "to": "P03", "width": 3}, {"color": "red", "from": "P03", "to": "P07", "width": 3}, {"color": "red", "from": "P07", "to": "P08", "width": 3}, {"color": "red", "from": "P13", "to": "P08", "width": 3}, {"color": "red", "from": "P13", "to": "P14", "width": 3}, {"color": "red", "from": "P14", "to": "P15", "width": 3}, {"color": "red", "from": "P15", "to": "P16", "width": 3}, {"color": "red", "from": "C06", "to": "D01", "width": 3}, {"color": "red", "from": "C10", "to": "P01", "width": 3}, {"color": "grey", "from": "C04", "to": "C23"}, {"color": "grey", "from": "C05", "to": "C15"}, {"color": "grey", "from": "C11", "to": "C12"}, {"color": "grey", "from": "C12", "to": "C13"}, {"color": "grey", "from": "C14", "to": "C13"}, {"color": "grey", "from": "C14", "to": "C15"}, {"color": "grey", "from": "C15", "to": "C21"}, {"color": "grey", "from": "C16", "to": "C24"}, {"color": "grey", "from": "C18", "to": "C25"}, {"color": "grey", "from": "C19", "to": "C18"}, {"color": "grey", "from": "C20", "to": "C19"}, {"color": "grey", "from": "C20", "to": "C25"}, {"color": "grey", "from": "C21", "to": "C20"}, {"color": "grey", "from": "C21", "to": "C22"}, {"color": "grey", "from": "C23", "to": "C12"}, {"color": "grey", "from": "C23", "to": "C14"}, {"color": "grey", "from": "C24", "to": "C13"}, {"color": "grey", "from": "C24", "to": "C19"}, {"color": "grey", "from": "D03", "to": "D23"}, {"color": "grey", "from": "D04", "to": "D23"}, {"color": "grey", "from": "D05", "to": "D06"}, {"color": "grey", "from": "D06", "to": "D07"}, {"color": "grey", "from": "D07", "to": "D08"}, {"color": "grey", "from": "D07", "to": "D23"}, {"color": "grey", "from": "D08", "to": "D09"}, {"color": "grey", "from": "D08", "to": "D23"}, {"color": "grey", "from": "D09", "to": "D10"}, {"color": "grey", "from": "D10", "to": "D11"}, {"color": "grey", "from": "D11", "to": "D12"}, {"color": "grey", "from": "D11", "to": "D25"}, {"color": "grey", "from": "D13", "to": "D14"}, {"color": "grey", "from": "D13", "to": "D24"}, {"color": "grey", "from": "D14", "to": "D18"}, {"color": "grey", "from": "D15", "to": "D16"}, {"color": "grey", "from": "D15", "to": "D25"}, {"color": "grey", "from": "D16", "to": "D17"}, {"color": "grey", "from": "D16", "to": "D24"}, {"color": "grey", "from": "D17", "to": "D18"}, {"color": "grey", "from": "D18", "to": "D19"}, {"color": "grey", "from": "D18", "to": "D24"}, {"color": "grey", "from": "D19", "to": "D20"}, {"color": "grey", "from": "D20", "to": "D21"}, {"color": "grey", "from": "D21", "to": "D22"}, {"color": "grey", "from": "P03", "to": "P04"}, {"color": "grey", "from": "P04", "to": "P05"}, {"color": "grey", "from": "P04", "to": "P24"}, {"color": "grey", "from": "P05", "to": "P06"}, {"color": "grey", "from": "P06", "to": "P24"}, {"color": "grey", "from": "P08", "to": "P09"}, {"color": "grey", "from": "P08", "to": "P23"}, {"color": "grey", "from": "P09", "to": "P10"}, {"color": "grey", "from": "P10", "to": "P11"}, {"color": "grey", "from": "P10", "to": "P23"}, {"color": "grey", "from": "P11", "to": "P12"}, {"color": "grey", "from": "P11", "to": "P13"}, {"color": "grey", "from": "P12", "to": "P14"}, {"color": "grey", "from": "P13", "to": "P23"}, {"color": "grey", "from": "P15", "to": "P19"}, {"color": "grey", "from": "P16", "to": "P17"}, {"color": "grey", "from": "P16", "to": "P25"}, {"color": "grey", "from": "P17", "to": "P18"}, {"color": "grey", "from": "P18", "to": "P22"}, {"color": "grey", "from": "P18", "to": "P25"}, {"color": "grey", "from": "P19", "to": "P20"}, {"color": "grey", "from": "P19", "to": "P25"}, {"color": "grey", "from": "P20", "to": "P06"}, {"color": "grey", "from": "P20", "to": "P21"}, {"color": "grey", "from": "P21", "to": "P22"}, {"color": "grey", "from": "S01", "to": "S02"}, {"color": "grey", "from": "S02", "to": "S03"}, {"color": "grey", "from": "S03", "to": "S05"}, {"color": "grey", "from": "S04", "to": "S05"}, {"color": "grey", "from": "S05", "to": "S06"}, {"color": "grey", "from": "S06", "to": "S07"}, {"color": "grey", "from": "S06", "to": "S23"}, {"color": "grey", "from": "S07", "to": "S08"}, {"color": "grey", "from": "S08", "to": "S09"}, {"color": "grey", "from": "S08", "to": "S23"}, {"color": "grey", "from": "S09", "to": "S10"}, {"color": "grey", "from": "S09", "to": "S13"}, {"color": "grey", "from": "S09", "to": "S16"}, {"color": "grey", "from": "S10", "to": "S11"}, {"color": "grey", "from": "S11", "to": "S12"}, {"color": "grey", "from": "S12", "to": "S13"}, {"color": "grey", "from": "S13", "to": "S14"}, {"color": "grey", "from": "S14", "to": "S15"}, {"color": "grey", "from": "S14", "to": "S25"}, {"color": "grey", "from": "S15", "to": "S21"}, {"color": "grey", "from": "S16", "to": "S17"}, {"color": "grey", "from": "S16", "to": "S25"}, {"color": "grey", "from": "S17", "to": "S18"}, {"color": "grey", "from": "S17", "to": "S20"}, {"color": "grey", "from": "S18", "to": "S19"}, {"color": "grey", "from": "S19", "to": "S22"}, {"color": "grey", "from": "S19", "to": "S24"}, {"color": "grey", "from": "S21", "to": "S20"}, {"color": "grey", "from": "S21", "to": "S22"}, {"color": "grey", "from": "S21", "to": "S24"}, {"color": "grey", "from": "S24", "to": "S22"}, {"color": "grey", "from": "C22", "to": "D05"}, {"color": "grey", "from": "P06", "to": "S01"}, {"color": "grey", "from": "P22", "to": "S04"}, {"color": "grey", "from": "D22", "to": "S02"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"configure": {"enabled": true, "filter": ["physics"]}, "physics": {"enabled": true, "stabilization": {"fit": true}, "barnesHut": {"theta": 0.55, "gravitationalConstant": -16900, "centralGravity": 7.95, "springLength": 0, "springConstant": 0.575, "damping": 0.6, "avoidOverlap": 1}, "minVelocity": 0.52}};
+
+
+
+
+
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+
+
+                  network = new vis.Network(container, data, options);
+
+
+
+
+
+
+
+
+
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+
+
+
+    </div>
+
+</body>
+</html>
